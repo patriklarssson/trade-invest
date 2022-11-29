@@ -1,15 +1,16 @@
 import styled from '@emotion/styled';
-import NxWelcome from './nx-welcome';
+import { Stack } from '@trade-invest/components-ui';
 
-const StyledApp = styled.div`
-  // Your style here
-`;
+const StyledApp = styled.h1(({theme}) => ({
+  color: theme.palette.primary.main
+}))
 
 export function App() {
   return (
-    <StyledApp>
-      <NxWelcome title="market-overview" />
-    </StyledApp>
+    <Stack spacing={6} direction="row">
+      <StyledApp>YEET</StyledApp>
+      <StyledApp>123</StyledApp>
+    </Stack>
   );
 }
 
