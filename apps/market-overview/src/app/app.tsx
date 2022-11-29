@@ -8,7 +8,7 @@ const StyledApp = styled.h1(({theme}) => ({
 export function App() {
   return (
     <Stack spacing={6} direction="row">
-      <StyledApp>YEET1</StyledApp>
+      <StyledApp>YEET</StyledApp>
       <StyledApp>123</StyledApp>
     </Stack>
   );
