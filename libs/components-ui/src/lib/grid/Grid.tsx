@@ -97,6 +97,7 @@ export function Grid(props: IGridProps) {
     spacing,
     columns,
   };
+console.log();
 
   return (
     <GridRoot ownerState={ownerState} as={component} {...other}>
