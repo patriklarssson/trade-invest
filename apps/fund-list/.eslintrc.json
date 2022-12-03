@@ -10,10 +10,7 @@
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "rules": {
-        "@next/next/no-html-link-for-pages": [
-          "error",
-          "apps/market-overview/pages"
-        ]
+        "@next/next/no-html-link-for-pages": ["error", "apps/fund-list/pages"]
       }
     },
     {

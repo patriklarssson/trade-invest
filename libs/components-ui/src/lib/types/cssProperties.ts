@@ -1,9 +1,11 @@
-import { Breakpoint } from '@trade-invest/theme';
+import { Breakpoint, IntRange } from '@trade-invest/theme';
 import type * as CSS from 'csstype';
+
 
 export type WithBreakpoint<T> = { [breakpoint in keyof Breakpoint]?: T };
 
 export type FlexDirection = Exclude<CSS.Property.FlexDirection, CSS.Globals>;
+export type FlexWrap = CSS.Property.FlexWrap
 
 export type JustifyContent =
   | Exclude<CSS.DataType.ContentDistribution, 'stretch'>
@@ -21,6 +23,8 @@ export type BasicTextAlign = 'center' | 'left' | 'right';
 
 export type Orientation = 'horizontal' | 'vertical';
 
+export type GridColumns = IntRange<1, 13> | 'auto'
+
 export type ColorTypes =
   | 'inherit'
   | 'primary'
@@ -34,10 +38,12 @@ export type BaseSize = 'small' | 'medium' | 'large';
 
 type AllCombined =
   | FlexDirection
+  | FlexWrap
   | JustifyContent
   | AlignItems
   | BasicTextAlign
   | Orientation
+  | GridColumns
   | ColorTypes
   | BaseSize;
 

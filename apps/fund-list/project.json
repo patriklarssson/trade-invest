@@ -1,7 +1,7 @@
 {
-  "name": "market-overview",
+  "name": "fund-list",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/market-overview",
+  "sourceRoot": "apps/fund-list",
   "projectType": "application",
   "targets": {
     "build": {
@@ -9,12 +9,12 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "root": "apps/market-overview",
-        "outputPath": "dist/apps/market-overview"
+        "root": "apps/fund-list",
+        "outputPath": "dist/apps/fund-list"
       },
       "configurations": {
         "development": {
-          "outputPath": "apps/market-overview"
+          "outputPath": "apps/fund-list"
         },
         "production": {}
       }
@@ -23,16 +23,16 @@
       "executor": "@nrwl/next:server",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "market-overview:build",
+        "buildTarget": "fund-list:build",
         "dev": true
       },
       "configurations": {
         "development": {
-          "buildTarget": "market-overview:build:development",
+          "buildTarget": "fund-list:build:development",
           "dev": true
         },
         "production": {
-          "buildTarget": "market-overview:build:production",
+          "buildTarget": "fund-list:build:production",
           "dev": false
         }
       }
@@ -40,14 +40,14 @@
     "export": {
       "executor": "@nrwl/next:export",
       "options": {
-        "buildTarget": "market-overview:build:production"
+        "buildTarget": "fund-list:build:production"
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/market-overview/jest.config.ts",
+        "jestConfig": "apps/fund-list/jest.config.ts",
         "passWithNoTests": true
       }
     },
@@ -55,7 +55,7 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/market-overview/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": ["apps/fund-list/**/*.{ts,tsx,js,jsx}"]
       }
     }
   },
