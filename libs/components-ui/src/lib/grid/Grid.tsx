@@ -29,12 +29,11 @@ const GridRoot = styled.div<{ ownerState: IGridProps }>(
   ({ theme, ownerState }) => ({
     boxSizing: 'border-box',
 
-    // ...handleBreakpoints(5, (propValue) => ({
-    //   marginLeft: propValue,
-    // })),
-    // ...handleBreakpoints({md: 10}, (propValue) => ({
-    //   marginLeft: propValue,
-    // })),
+    ...handleBreakpoints({xs: {one: "red", two: "blue"}, xl: {one: "yellow"}}, (propValue) => ({
+      backgroundColor: propValue.one,
+      color: propValue.two,
+    })),
+
 
     ...(ownerState.container && {
       display: 'flex',
