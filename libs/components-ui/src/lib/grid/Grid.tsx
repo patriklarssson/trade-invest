@@ -17,8 +17,8 @@ interface IGridProps extends HTMLAttributes<HTMLElement> {
   container?: boolean;
   direction?: FlexDirection;
   item?: boolean;
-  columns?: WithBreakpoint<GridColumns>;
-  spacing?: Spacing;
+  columns?: GridColumns | WithBreakpoint<GridColumns>;
+  spacing?: Spacing | WithBreakpoint<Spacing>;
   wrap?: FlexWrap;
   zeroMinWidth?: boolean;
 }
@@ -29,17 +29,28 @@ const GridRoot = styled.div<{ ownerState: IGridProps }>(
   ({ theme, ownerState }) => ({
     boxSizing: 'border-box',
 
+    // ...handleBreakpoints(5, (propValue) => ({
+    //   marginLeft: propValue,
+    // })),
+    // ...handleBreakpoints({md: 10}, (propValue) => ({
+    //   marginLeft: propValue,
+    // })),
+
     ...(ownerState.container && {
       display: 'flex',
       flexWrap: ownerState.wrap,
       flexDirection: ownerState.direction,
       ...(ownerState.spacing && {
-        marginLeft: `-${theme.spacing(ownerState.spacing)}px`,
-        marginTop: `-${theme.spacing(ownerState.spacing)}px`,
-        width: `calc(100% + ${theme.spacing(ownerState.spacing)}px)`,
+        ...handleBreakpoints(ownerState.spacing, (propValue) => ({
+          marginLeft: `-${theme.spacing(propValue)}px`,
+          marginTop: `-${theme.spacing(propValue)}px`,
+          width: `calc(100% + ${theme.spacing(propValue)}px)`,
+        })),
         '>*': {
-          paddingLeft: theme.spacing(ownerState.spacing),
-          paddingTop: theme.spacing(ownerState.spacing),
+          ...handleBreakpoints(ownerState.spacing, (propValue) => ({
+            paddingLeft: theme.spacing(propValue),
+            paddingTop: theme.spacing(propValue),
+          })),
           margin: 0,
           flexDirection: ownerState.direction,
           WebkitBoxFlex: 0,
@@ -59,7 +70,7 @@ const GridRoot = styled.div<{ ownerState: IGridProps }>(
         ...handleBreakpoints(ownerState.columns, (propValue) => ({
           ...(propValue === 'auto' && {
             flexBasis: 'auto',
-            flexGrow: '0',
+            flexGrow: '1',
             flexShrink: '0',
             maxWidth: 'none',
             width: 'auto',
@@ -97,7 +108,6 @@ export function Grid(props: IGridProps) {
     spacing,
     columns,
   };
-
 
   return (
     <GridRoot ownerState={ownerState} as={component} {...other}>

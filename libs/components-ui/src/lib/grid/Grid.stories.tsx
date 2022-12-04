@@ -8,14 +8,14 @@ export default {
 
 export const GridLayout = () => {
   return (
-    <Grid container spacing={5}>
-        <Grid item columns={{xs: 3, xl: 6}}>
+    <Grid container spacing={6}>
+        <Grid item columns={3}>
             <div style={{height: "100%", width: "100%", backgroundColor: "red"}}>Yes</div>
         </Grid>
-        <Grid columns={{xs: 6, xl: 6}}>
+        <Grid columns={1}>
             <div style={{height: "100%", width: "100%", backgroundColor: "blue"}}>Yes</div>
         </Grid>
-        <Grid item columns={{xs: 3, xl: 12}}>
+        <Grid item columns={8}>
             <div style={{height: "100%", width: "100%", backgroundColor: "orange"}}>Yes</div>
         </Grid>
     </Grid>

@@ -1,4 +1,4 @@
-import { Breakpoint, IntRange } from '@trade-invest/theme';
+import { Breakpoint, IntRange, Spacing } from '@trade-invest/theme';
 import type * as CSS from 'csstype';
 
 
@@ -36,9 +36,10 @@ export type ColorTypes =
 
 export type BaseSize = 'small' | 'medium' | 'large';
 
-type AllCombined =
+export type AllCombined =
   | FlexDirection
   | FlexWrap
+  | Spacing
   | JustifyContent
   | AlignItems
   | BasicTextAlign
