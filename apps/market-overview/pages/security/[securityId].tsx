@@ -93,8 +93,6 @@ const NewsList = ({ news }: { news: News[] }) => {
 export default function SecurityDetailPage({
   security,
 }: ISecurityDetailsProps) {
-  console.log(security);
-
   return (
     <Container maxWidth="xl">
       <Grid container spacing={{ md: 2 }} rowSpacing={2}>
