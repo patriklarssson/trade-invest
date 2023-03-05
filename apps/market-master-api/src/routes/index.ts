@@ -1,2 +1,2 @@
-export { default as loginRouter } from './loginRoute';
+export { default as authRouter } from './authRoute';
 export { default as securityRouter } from './securityRoute';

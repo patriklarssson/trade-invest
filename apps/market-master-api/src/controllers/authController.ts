@@ -1,7 +1,7 @@
 import { AuthErrorResponse } from '../models/Avanza';
 import { authenticate } from '../services/avanzaService';
 
-export const login = (req, res, next) => {
+const passwordLogin = (req, res, next) => {
   console.log('authing...');
   const { username, password, totpSecret } = req.body;
   let credentials = {
@@ -20,3 +20,12 @@ export const login = (req, res, next) => {
   .then(() => next())
   .catch((error: AuthErrorResponse) => res.send(error));
 };
+
+const bankIdCollect = (req, res, next) => {
+
+}
+const bankIdCollectCustomerId = (req, res, next) => {
+
+}
+
+export {passwordLogin, bankIdCollect, bankIdCollectCustomerId}
