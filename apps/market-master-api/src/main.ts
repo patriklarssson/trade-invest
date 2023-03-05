@@ -19,7 +19,6 @@ const SessionCookie =
         maxAge: 1000 * 60 * 60 * 60 * 24 * 2, //2 day
       };
 
-
 const app = express();
 app.use(cors({ credentials: true, origin: true }));
 app.use(express.json());

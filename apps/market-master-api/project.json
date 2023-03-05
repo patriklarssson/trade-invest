@@ -15,7 +15,8 @@
         "tsConfig": "apps/market-master-api/tsconfig.app.json",
         "assets": ["apps/market-master-api/src/assets"],
         "isolatedConfig": true,
-        "webpackConfig": "apps/market-master-api/webpack.config.js"
+        "webpackConfig": "apps/market-master-api/webpack.config.js",
+        "externalDependencies": "none"
       },
       "configurations": {
         "production": {
