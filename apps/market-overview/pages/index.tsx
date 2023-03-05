@@ -9,8 +9,9 @@ export function Index() {
     transactionId: string;
   }>();
 
+  const [security, setSecurity] = useState()
   useEffect(() => {
-    axios.get('https://localhost:3333/auth/bankid').then(({ data }) => {
+    axios.get('https://localhost:3333/auth/bankid', {withCredentials: true}).then(({ data }) => {
       console.log(data);
       setToken({
         autostartToken: `bankid:///?autostarttoken=${data.body.autostartToken}`,
@@ -25,7 +26,7 @@ export function Index() {
         axios
           .post('https://localhost:3333/auth/bankid/collect', {
             transactionId: token.transactionId,
-          })
+          }, {withCredentials: true})
           .then(({ data }) => {
             console.log(data);
             if (data.body.state === 'COMPLETE') {
@@ -36,7 +37,8 @@ export function Index() {
                   `https://localhost:3333/auth/bankid/collect/${data.body.logins[0].customerId}`,
                   {
                     transactionId: token.transactionId,
-                  }
+                  },
+                  {withCredentials: true}
                 )
                 .then(({ data }) => console.log(data));
             }
@@ -45,10 +47,19 @@ export function Index() {
     return () => clearInterval(interval);
   }, [token?.transactionId]);
 
+  const getSecurity = () => {
+    axios.get("https://localhost:3333/security/517316", {withCredentials: true})
+    .then(({data}) => setSecurity(data))
+    .catch((error) => setSecurity(error))
+  }
+
   return (
     <div>
       {token?.autostartToken && <QRCode value={token.autostartToken} />}
-      <h3>{JSON.stringify(token)}</h3>
+      <button onClick={() => getSecurity()}>Get Security</button>
+      {security &&
+        <span>{JSON.stringify(security)}</span>
+      }
     </div>
   );
 }

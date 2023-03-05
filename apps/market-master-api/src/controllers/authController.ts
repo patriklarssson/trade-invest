@@ -5,7 +5,7 @@ import {
   checkBankIdCollect,
   initBankId,
 } from '../services/authService';
-import { storeUserSession } from '../services/userSessionService';
+import { getUserSession, storeUserSession } from '../services/userSessionService';
 
 const passwordLogin = (req, res, next) => {
   console.log('authing...');
@@ -39,7 +39,11 @@ const bankIdCollectCustomerId = (req, res, next) => {
   const { transactionId } = req.body;
   bankIdEstablishConnection(transactionId, customerId).then((avanza) => {
     storeUserSession(req.session.id, { avanzaSession: avanza }, 600000);
-    res.send("Auth OK")
+
+    console.log("AUTH", req.session.id);
+
+    avanza.getPositions()
+    .then((x) => res.send(x))
   });
 };
 
