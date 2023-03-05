@@ -7,6 +7,7 @@ import { authRouter, securityRouter } from './routes';
 import fs from 'fs';
 import https from 'https';
 import cors from 'cors';
+import "tslib"
 
 const SessionCookie =
   process.env.NODE_ENV == 'dev'
