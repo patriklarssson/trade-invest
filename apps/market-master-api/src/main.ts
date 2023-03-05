@@ -32,8 +32,10 @@ app.use(
   })
 );
 
-const privateKey = fs.readFileSync('C:/certs/key.pem');
-const certificate = fs.readFileSync('C:/certs/cert.pem');
+// const privateKey = fs.readFileSync('C:/certs/key.pem');
+// const certificate = fs.readFileSync('C:/certs/cert.pem');
+const privateKey = fs.readFileSync('/var/www/html/trade-invest/key.pem');
+const certificate = fs.readFileSync('/var/www/html/trade-invest/cert.pem');
 const server = https.createServer({ key: privateKey, cert: certificate }, app);
 
 app.use('/auth', authRouter);
