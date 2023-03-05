@@ -9,7 +9,7 @@ import fs from 'fs';
 import https from 'https';
 import cors from 'cors';
 import axios from 'axios';
-import Avanza from 'avanza';
+import { Avanza } from '@trade-invest/avanza';
 
 patchPaths();
 
@@ -32,42 +32,40 @@ const privateKey = fs.readFileSync('C:/certs/key.pem');
 const certificate = fs.readFileSync('C:/certs/cert.pem');
 const server = https.createServer({ key: privateKey, cert: certificate }, app);
 
-app.get('/authenticatebankeid', (req, res) => {
-  const avanza = new Avanza();
-  avanza
-    .authenticateBankId()
-    .then((x) => res.send(x.body))
-    .catch((x) => console.log(x));
-});
+// app.get('/authenticatebankeid', (req, res) => {
+//   const avanza = new Avanza();
+//   avanza.
+//   avanza
+//     .authenticateBankId()
+//     .then((x) => res.send(x.body))
+//     .catch((x) => console.log(x));
+// });
 
-app.post('/authenticatebankidcollect', (req, res) => {
-  const { transactionId } = req.body;
-  const avanza = new Avanza();
-  avanza
-    .authenticateBankIdCollect(transactionId)
-    .then((x) => res.send(x))
-    .catch((x) => console.log(x));
-});
-app.post('/authenticatebankidcollect/:customerId', (req, res) => {
-  const { customerId } = req.params;
-  const { transactionId } = req.body;
+// app.post('/authenticatebankidcollect', (req, res) => {
+//   const { transactionId } = req.body;
+//   const avanza = new Avanza();
+//   avanza
+//     .authenticateBankIdCollect(transactionId)
+//     .then((x) => res.send(x))
+//     .catch((x) => console.log(x));
+// });
+// app.post('/authenticatebankidcollect/:customerId', (req, res) => {
+//   const { customerId } = req.params;
+//   const { transactionId } = req.body;
 
-  console.log('customerId', customerId);
-  console.log('transactionId', transactionId);
+//   console.log('customerId', customerId);
+//   console.log('transactionId', transactionId);
 
-  const avanza = new Avanza();
-  avanza
-    .authenticateBankIdCollectCustomerId(transactionId, customerId)
-    .then((x) => {
+//   const avanza = new Avanza();
+//   avanza
+//     .authenticateBankIdCollectCustomerId(transactionId, customerId)
+//     .then((x) => {
+//       avanza.getPositions().then((x) => res.send(x));
+//     })
+//     .catch((x) => console.log(x));
+// });
 
-      avanza.getPositions()
-      .then((x) => res.send(x))
-
-    })
-    .catch((x) => console.log(x));
-});
-
-app.use('/login', authRouter);
+app.use('/auth', authRouter);
 app.use('/security', securityRouter);
 
 const port = process.env.PORT || 3333;

@@ -10,11 +10,11 @@ export function Index() {
   }>();
 
   useEffect(() => {
-    axios.get('https://localhost:3333/authenticatebankeid').then(({ data }) => {
+    axios.get('https://localhost:3333/auth/bankid').then(({ data }) => {
       console.log(data);
       setToken({
-        autostartToken: `bankid:///?autostarttoken=${data.autostartToken}`,
-        transactionId: data.transactionId,
+        autostartToken: `bankid:///?autostarttoken=${data.body.autostartToken}`,
+        transactionId: data.body.transactionId,
       });
     });
   }, []);
@@ -23,7 +23,7 @@ export function Index() {
     const interval = setInterval(() => {
       if (token?.transactionId)
         axios
-          .post('https://localhost:3333/authenticatebankidcollect', {
+          .post('https://localhost:3333/auth/bankid/collect', {
             transactionId: token.transactionId,
           })
           .then(({ data }) => {
@@ -31,11 +31,14 @@ export function Index() {
             if (data.body.state === 'COMPLETE') {
               clearInterval(interval);
 
-              axios.post(`https://localhost:3333/authenticatebankidcollect/${data.body.logins[0].customerId}`, {
-                transactionId: token.transactionId,
-              })
-              .then(({data}) => console.log(data))
-
+              axios
+                .post(
+                  `https://localhost:3333/auth/bankid/collect/${data.body.logins[0].customerId}`,
+                  {
+                    transactionId: token.transactionId,
+                  }
+                )
+                .then(({ data }) => console.log(data));
             }
           });
     }, 5000);
