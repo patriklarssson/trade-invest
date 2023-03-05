@@ -5,7 +5,7 @@ import {
   checkBankIdCollect,
   initBankId,
 } from '../services/authService';
-import { getUserSession, storeUserSession } from '../services/userSessionService';
+import { storeUserSession } from '../services/userSessionService';
 
 const passwordLogin = (req, res, next) => {
   console.log('authing...');
@@ -15,13 +15,6 @@ const passwordLogin = (req, res, next) => {
     password,
     totpSecret,
   };
-  // if (process.env.NODE_ENV === 'development') {
-  //   credentials = {
-  //     username: process.env.AVA_USERNAME,
-  //     password: process.env.PASSWORD,
-  //     totpSecret: process.env.TOTPSECRET,
-  //   };
-  // }
   authenticate(req.session.id, credentials)
     .then(() => next())
     .catch((error: AuthErrorResponse) => res.send(error));

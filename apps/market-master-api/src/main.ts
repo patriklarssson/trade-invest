@@ -1,5 +1,3 @@
-// import dotenv from 'dotenv';
-// dotenv.config({ path: '../trade-invest/apps/market-master-api/.env' });
 import { randomUUID } from 'crypto';
 import express from 'express';
 import session from 'express-session';
