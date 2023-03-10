@@ -9,9 +9,11 @@ export function Index() {
     transactionId: string;
   }>();
 
+  const baseUrl = "https://84.217.73.211:4545"
+
   const [security, setSecurity] = useState()
   useEffect(() => {
-    axios.get('https://localhost:3333/auth/bankid', {withCredentials: true}).then(({ data }) => {
+    axios.get(`${baseUrl}/auth/bankid`, {withCredentials: true}).then(({ data }) => {
       console.log(data);
       setToken({
         autostartToken: `bankid:///?autostarttoken=${data.body.autostartToken}`,
@@ -24,7 +26,7 @@ export function Index() {
     const interval = setInterval(() => {
       if (token?.transactionId)
         axios
-          .post('https://localhost:3333/auth/bankid/collect', {
+          .post(`${baseUrl}/auth/bankid/collect`, {
             transactionId: token.transactionId,
           }, {withCredentials: true})
           .then(({ data }) => {
@@ -34,7 +36,7 @@ export function Index() {
 
               axios
                 .post(
-                  `https://localhost:3333/auth/bankid/collect/${data.body.logins[0].customerId}`,
+                  `${baseUrl}/auth/bankid/collect/${data.body.logins[0].customerId}`,
                   {
                     transactionId: token.transactionId,
                   },
@@ -48,7 +50,7 @@ export function Index() {
   }, [token?.transactionId]);
 
   const getSecurity = () => {
-    axios.get("https://localhost:3333/security/517316", {withCredentials: true})
+    axios.get(`${baseUrl}/security/517316`, {withCredentials: true})
     .then(({data}) => setSecurity(data))
     .catch((error) => setSecurity(error))
   }
