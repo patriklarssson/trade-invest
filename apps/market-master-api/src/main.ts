@@ -5,6 +5,7 @@ import { authRouter, securityRouter } from './routes';
 import fs from 'fs';
 import https from 'https';
 import cors from 'cors';
+import config from "../config"
 
 const SessionCookie =
   process.env.NODE_ENV == 'dev'
@@ -32,10 +33,8 @@ app.use(
   })
 );
 
-// const privateKey = fs.readFileSync('C:/certs/key.pem');
-// const certificate = fs.readFileSync('C:/certs/cert.pem');
-const privateKey = fs.readFileSync('/var/www/html/trade-invest/key.pem');
-const certificate = fs.readFileSync('/var/www/html/trade-invest/cert.pem');
+const privateKey = fs.readFileSync(config.ssl.key);
+const certificate = fs.readFileSync(config.ssl.cert);
 const server = https.createServer({ key: privateKey, cert: certificate }, app);
 
 app.use('/auth', authRouter);
@@ -43,7 +42,7 @@ app.use('/security', securityRouter);
 
 const port = process.env.PORT || 3333;
 server.listen(port, () => {
-  console.log(`Listening at https://localhost:${port}/api`);
+  console.log(`Listening at https://localhost:${port}`);
 });
 
 server.on('error', console.error);

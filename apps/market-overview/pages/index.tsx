@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import QRCode from 'react-qr-code';
+import config from "../config"
 
 export function Index() {
   const [token, setToken] = useState<{
@@ -9,11 +10,9 @@ export function Index() {
     transactionId: string;
   }>();
 
-  const baseUrl = "https://84.217.73.211:4545"
-
   const [security, setSecurity] = useState()
   useEffect(() => {
-    axios.get(`${baseUrl}/auth/bankid`, {withCredentials: true}).then(({ data }) => {
+    axios.get(`${config.marketMasterApiBaseUrl}/auth/bankid`, {withCredentials: true}).then(({ data }) => {
       console.log(data);
       setToken({
         autostartToken: `bankid:///?autostarttoken=${data.body.autostartToken}`,
@@ -26,7 +25,7 @@ export function Index() {
     const interval = setInterval(() => {
       if (token?.transactionId)
         axios
-          .post(`${baseUrl}/auth/bankid/collect`, {
+          .post(`${config.marketMasterApiBaseUrl}/auth/bankid/collect`, {
             transactionId: token.transactionId,
           }, {withCredentials: true})
           .then(({ data }) => {
@@ -36,7 +35,7 @@ export function Index() {
 
               axios
                 .post(
-                  `${baseUrl}/auth/bankid/collect/${data.body.logins[0].customerId}`,
+                  `${config.marketMasterApiBaseUrl}/auth/bankid/collect/${data.body.logins[0].customerId}`,
                   {
                     transactionId: token.transactionId,
                   },
@@ -50,7 +49,7 @@ export function Index() {
   }, [token?.transactionId]);
 
   const getSecurity = () => {
-    axios.get(`${baseUrl}/security/517316`, {withCredentials: true})
+    axios.get(`${config.marketMasterApiBaseUrl}/security/517316`, {withCredentials: true})
     .then(({data}) => setSecurity(data))
     .catch((error) => setSecurity(error))
   }
