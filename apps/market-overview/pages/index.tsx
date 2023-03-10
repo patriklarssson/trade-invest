@@ -64,6 +64,7 @@ export function Index(): JSX.Element {
 
   return (
     <Container maxWidth="xl">
+      <h1>YOO</h1>
       {autostartToken && (
         <div>
           <QRCode value={autostartToken} />
