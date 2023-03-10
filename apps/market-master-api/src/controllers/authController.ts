@@ -33,7 +33,7 @@ const bankIdCollectCustomerId = (req, res, next) => {
   bankIdEstablishConnection(transactionId, customerId).then((avanza) => {
     storeUserSession(req.session.id, { avanzaSession: avanza }, 600000);
     console.log("AUTH", req.session.id);
-    next()
+    res.send("OK")
   });
 };
 
