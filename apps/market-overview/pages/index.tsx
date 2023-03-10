@@ -1,67 +1,78 @@
 import styled from '@emotion/styled';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 import QRCode from 'react-qr-code';
-import config from "../config"
+import config from '../config';
+import { Container } from '@trade-invest/components-ui';
+import { useRouter } from 'next/router';
 
-export function Index() {
-  const [token, setToken] = useState<{
-    autostartToken: string;
-    transactionId: string;
-  }>();
+export function Index(): JSX.Element {
+  const [autostartToken, setAutostartToken] = useState<string>();
+  const router = useRouter();
 
-  const [security, setSecurity] = useState()
-  useEffect(() => {
-    axios.get(`${config.marketMasterApiBaseUrl}/auth/bankid`, {withCredentials: true}).then(({ data }) => {
-      console.log(data);
-      setToken({
-        autostartToken: `bankid:///?autostarttoken=${data.body.autostartToken}`,
-        transactionId: data.body.transactionId,
+  const axiosOptions = { withCredentials: true };
+
+  const startBankIdSigning = async () => {
+    const { data } = await axios.get(
+      `${config.marketMasterApiBaseUrl}/auth/bankid`,
+      axiosOptions
+    );
+    setAutostartToken(`bankid:///?autostarttoken=${data.body.autostartToken}`);
+    collectBankId(data.body.transactionId);
+  };
+
+  const collectBankId = async (transactionId: string): Promise<void> => {
+    const interval = setInterval(async () => {
+      try {
+        const { data } = await axios.post(
+          `${config.marketMasterApiBaseUrl}/auth/bankid/collect`,
+          { transactionId },
+          axiosOptions
+        );
+        console.log(data);
+        if (data.body.state === 'COMPLETE') {
+          clearInterval(interval);
+          await authAndRoute(transactionId, data.body.logins[0]?.customerId);
+        }
+      } catch (error) {
+        handleError(error);
+        clearInterval(interval);
+      }
+    }, 5000);
+  };
+
+  const authAndRoute = (transactionId: string, customerId: string) => {
+    axios
+      .post(
+        `${config.marketMasterApiBaseUrl}/auth/bankid/collect/${customerId}`,
+        { transactionId },
+        axiosOptions
+      )
+      .then(() => {
+        router.push('/account/holdings');
       });
-    });
+  };
+
+  const handleError = (error: AxiosError): void => {
+    console.error(error);
+    alert('An error occurred. Please try again later.');
+  };
+
+  useEffect(() => {
+    startBankIdSigning();
   }, []);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (token?.transactionId)
-        axios
-          .post(`${config.marketMasterApiBaseUrl}/auth/bankid/collect`, {
-            transactionId: token.transactionId,
-          }, {withCredentials: true})
-          .then(({ data }) => {
-            console.log(data);
-            if (data.body.state === 'COMPLETE') {
-              clearInterval(interval);
-
-              axios
-                .post(
-                  `${config.marketMasterApiBaseUrl}/auth/bankid/collect/${data.body.logins[0].customerId}`,
-                  {
-                    transactionId: token.transactionId,
-                  },
-                  {withCredentials: true}
-                )
-                .then(({ data }) => console.log(data));
-            }
-          });
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [token?.transactionId]);
-
-  const getSecurity = () => {
-    axios.get(`${config.marketMasterApiBaseUrl}/security/517316`, {withCredentials: true})
-    .then(({data}) => setSecurity(data))
-    .catch((error) => setSecurity(error))
-  }
-
   return (
-    <div>
-      {token?.autostartToken && <QRCode value={token.autostartToken} />}
-      <button onClick={() => getSecurity()}>Get Security</button>
-      {security &&
-        <span>{JSON.stringify(security)}</span>
-      }
-    </div>
+    <Container maxWidth="xl">
+      {autostartToken && (
+        <div>
+          <QRCode value={autostartToken} />
+          <a href={`bankid:///?autostarttoken=${autostartToken}`}>
+            Open on this device
+          </a>
+        </div>
+      )}
+    </Container>
   );
 }
 
