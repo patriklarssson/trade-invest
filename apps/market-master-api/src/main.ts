@@ -6,6 +6,8 @@ import fs from 'fs';
 import https from 'https';
 import cors from 'cors';
 import config from "../config"
+import {createClient} from "redis"
+import RedisStore from "connect-redis"
 
 const SessionCookie =
   process.env.NODE_ENV == 'dev'
@@ -24,9 +26,21 @@ const app = express();
 app.use(cors({ credentials: true, origin: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+
+const redisClient = createClient()
+redisClient.connect().catch(console.error)
+
+// Initialize store.
+const redisStore = new RedisStore({
+  client: redisClient,
+  prefix: "market-master-api:",
+})
+
 app.use(
   session({
     secret: randomUUID(),
+    store: redisStore,
     resave: false,
     saveUninitialized: true,
     cookie: { ...SessionCookie } as any,

@@ -3,7 +3,9 @@ import config from '../../config';
 import axios from 'axios';
 import https from 'https';
 
-export default function SecurityDetailPage({holdings}) {
+export default function SecurityDetailPage({ holdings }) {
+  console.log(holdings);
+
   return (
     <div>
       <h3>totalBalance: {holdings.totalBalance}</h3>
@@ -16,16 +18,15 @@ export default function SecurityDetailPage({holdings}) {
 }
 
 export async function getServerSideProps({ req }) {
-  const { data } = await axios.get(
-    `${config.marketMasterApiBaseUrl}/account/holdings`,
-    {
+  const holdings = await axios
+    .get(`${config.marketMasterApiBaseUrl}/account/holdings`, {
       withCredentials: true,
       httpsAgent: new https.Agent({ rejectUnauthorized: false }),
       headers: {
         cookie: req.headers.cookie || '',
       },
-    }
-  );
+    })
+    .then(({ data }) => data);
 
-  return { props: { data } };
+  return { props: { holdings } };
 }
