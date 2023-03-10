@@ -1,7 +1,7 @@
 import { getPossitions } from '../services/accountService';
 
 const getHoldings = (req, res, next) => {
-  console.log("YOOOOOO");
+  console.log("getHoldings", req.session.id);
 
   getPossitions(req.session.id)
   .then((data) => res.send(data))

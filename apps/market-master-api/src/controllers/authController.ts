@@ -32,11 +32,8 @@ const bankIdCollectCustomerId = (req, res, next) => {
   const { transactionId } = req.body;
   bankIdEstablishConnection(transactionId, customerId).then((avanza) => {
     storeUserSession(req.session.id, { avanzaSession: avanza }, 600000);
-
     console.log("AUTH", req.session.id);
-
-    avanza.getPositions()
-    .then((x) => res.send(x))
+    next()
   });
 };
 
