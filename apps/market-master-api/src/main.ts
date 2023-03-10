@@ -9,23 +9,18 @@ import config from '../config';
 import { createClient } from 'redis';
 import RedisStore from 'connect-redis';
 
-// const SessionCookie =
-//   process.env.NODE_ENV == 'dev'
-//     ? {
-//         secure: false,
-//         sameSite: 'lax',
-//         maxAge: 1000 * 60 * 60 * 60 * 24 * 2, //2 day
-//       }
-//     : {
-//         secure: true,
-//         sameSite: 'none',
-//         maxAge: 1000 * 60 * 60 * 60 * 24 * 2, //2 day
-//       };
-const SessionCookie = {
-  secure: false,
-  sameSite: 'lax',
-  maxAge: 1000 * 60 * 60 * 60 * 24 * 2, //2 day
-};
+const SessionCookie =
+  process.env.NODE_ENV == 'dev'
+    ? {
+        secure: false,
+        sameSite: 'lax',
+        maxAge: 1000 * 60 * 60 * 60 * 24 * 2, //2 day
+      }
+    : {
+        secure: true,
+        sameSite: 'none',
+        maxAge: 1000 * 60 * 60 * 60 * 24 * 2, //2 day
+      };
 
 const app = express();
 app.use(cors({ credentials: true, origin: true }));
@@ -43,7 +38,8 @@ const redisStore = new RedisStore({
 
 app.use(
   session({
-    secret: randomUUID(),
+    // secret: randomUUID(),
+    secret: "Verycoolsecret",
     store: redisStore,
     resave: false,
     saveUninitialized: true,
