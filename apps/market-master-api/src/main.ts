@@ -41,8 +41,8 @@ app.use(
   session({
     secret: randomUUID(),
     store: redisStore,
-    resave: false,
-    saveUninitialized: true,
+    // resave: false,
+    // saveUninitialized: true,
     cookie: { ...SessionCookie } as any,
   })
 );
