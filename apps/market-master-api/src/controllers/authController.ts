@@ -28,6 +28,7 @@ const bankIdCollect = (req, res, next) => {
   checkBankIdCollect(transactionId).then((data) => res.send(data));
 };
 const bankIdCollectCustomerId = (req, res, next) => {
+  console.log('Cookies: ', req.cookies)
   const { customerId } = req.params;
   const { transactionId } = req.body;
   bankIdEstablishConnection(transactionId, customerId).then((avanza) => {

@@ -49,7 +49,8 @@ export function Index(): JSX.Element {
         axiosOptions
       )
       .then(() => {
-        router.push('/account/holdings');
+        // router.push('/account/holdings');
+        window.location.href = "/account/holdings"
       });
   };
 
