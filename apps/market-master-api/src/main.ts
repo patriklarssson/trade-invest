@@ -34,12 +34,12 @@ redisClient.connect().catch(console.error);
 const redisStore = new RedisStore({
   client: redisClient,
   prefix: 'market-master-api:',
+  ttl: 3600
 });
 
 app.use(
   session({
-    // secret: randomUUID(),
-    secret: "Verycoolsecret",
+    secret: randomUUID(),
     store: redisStore,
     resave: false,
     saveUninitialized: true,
