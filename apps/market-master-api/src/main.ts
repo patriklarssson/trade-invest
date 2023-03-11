@@ -36,7 +36,7 @@ const redisStore = new RedisStore({
   prefix: 'market-master-api:',
   ttl: 3600
 });
-
+app.set('trust proxy', 1);
 app.use(
   session({
     secret: randomUUID(),
