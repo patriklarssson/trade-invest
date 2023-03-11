@@ -58,11 +58,21 @@ const withPadding = <T,>(WrappedComponent: ComponentType<T>) => {
             pb = py;
           }
           return {
-            paddingTop: `${theme.spacing(pt)}px`,
-            paddingRight: `${theme.spacing(pr)}px`,
-            paddingBottom: `${theme.spacing(pb)}px`,
-            paddingLeft: `${theme.spacing(pl)}px`,
-            padding: `${theme.spacing(p)}px`,
+            ...(pt && {
+              paddingTop: `${theme.spacing(pt)}px`,
+            }),
+            ...(pr && {
+              paddingRight: `${theme.spacing(pr)}px`,
+            }),
+            ...(pb && {
+              paddingBottom: `${theme.spacing(pb)}px`,
+            }),
+            ...(pl && {
+              paddingLeft: `${theme.spacing(pl)}px`,
+            }),
+            ...(p && {
+              padding: `${theme.spacing(p)}px`,
+            }),
           };
         }
       ),

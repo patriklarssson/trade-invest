@@ -1,13 +1,21 @@
 import styled from '@emotion/styled';
 import axios, { AxiosError } from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import QRCode from 'react-qr-code';
 import config from '../config';
-import { Container } from '@trade-invest/components-ui';
+import {
+  Container,
+  Grid,
+  Modal,
+  Paper,
+  Typography,
+} from '@trade-invest/components-ui';
 import { useRouter } from 'next/router';
+import ReactDOM from 'react-dom';
 
 export function Index(): JSX.Element {
   const [autostartToken, setAutostartToken] = useState<string>();
+  const collectIntervalRef = useRef(null);
   const router = useRouter();
 
   const axiosOptions = { withCredentials: true };
@@ -22,23 +30,24 @@ export function Index(): JSX.Element {
   };
 
   const collectBankId = async (transactionId: string): Promise<void> => {
-    const interval = setInterval(async () => {
-      try {
-        const { data } = await axios.post(
+    collectIntervalRef.current = setInterval(async () => {
+      axios
+        .post(
           `${config.marketMasterApiBaseUrl}/auth/bankid/collect`,
           { transactionId },
           axiosOptions
-        );
-        console.log(data);
-        if (data.body.state === 'COMPLETE') {
-          clearInterval(interval);
-          await authAndRoute(transactionId, data.body.logins[0]?.customerId);
-        }
-      } catch (error) {
-        handleError(error);
-        clearInterval(interval);
-      }
-    }, 5000);
+        )
+        .then(({ data }) => {
+          if (data.body.state === 'COMPLETE') {
+            clearInterval(collectIntervalRef.current);
+            authAndRoute(transactionId, data.body.logins[0]?.customerId);
+          }
+          if (data.body.statusCode === 500) {
+            clearInterval(collectIntervalRef.current);
+            startBankIdSigning();
+          }
+        });
+    }, 1000);
   };
 
   const authAndRoute = (transactionId: string, customerId: string) => {
@@ -49,32 +58,75 @@ export function Index(): JSX.Element {
         axiosOptions
       )
       .then(() => {
-        // router.push('/account/holdings');
-        window.location.href = "/account/holdings"
+        router.push('/account/holdings');
       });
   };
 
-  const handleError = (error: AxiosError): void => {
-    console.error(error);
-    alert('An error occurred. Please try again later.');
+  const Button = styled.button(({ theme }) => ({
+    backgroundColor: theme.palette.background.default,
+    borderRadius: '10px',
+    padding: theme.spacing(2),
+    border: '1px solid #808080',
+    width: '50%',
+    minWidth: 300,
+    ':hover': {
+      cursor: 'pointer',
+    },
+  }));
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openBankIdSigning = () => {
+    startBankIdSigning();
+    setIsOpen(true);
+  };
+  const closeBankIdSigning = () => {
+    setIsOpen(false);
+    clearInterval(collectIntervalRef.current);
   };
 
-  useEffect(() => {
-    startBankIdSigning();
-  }, []);
-
   return (
-    <Container maxWidth="xl">
-      <h1>YOO</h1>
-      {autostartToken && (
-        <div>
-          <QRCode value={autostartToken} />
-          <a href={`bankid:///?autostarttoken=${autostartToken}`}>
-            Open on this device
-          </a>
-        </div>
-      )}
-    </Container>
+    <div
+      style={{
+        display: 'flex',
+        height: '70vh',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <Modal open={isOpen} onClose={closeBankIdSigning}>
+        <Paper
+          p={5}
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          flexDirection="column"
+        >
+          {autostartToken && <QRCode value={autostartToken} />}
+          <Typography variant="caption" pt={4}>
+            Scan the QR Code with you BankID app
+          </Typography>
+        </Paper>
+      </Modal>
+
+      <Grid container spacing={3}>
+        <Grid>
+          <Typography align="center" variant="h3">
+            Login to Your Account
+          </Typography>
+        </Grid>
+        <Grid justifyContent="center" display="flex">
+          <Button onClick={openBankIdSigning}>
+            <Typography variant="h6">BankId on other device</Typography>
+          </Button>
+        </Grid>
+        <Grid justifyContent="center" display="flex">
+          <Button onClick={() => window.location.href = autostartToken}>
+            <Typography variant="h6">Open BankId</Typography>
+          </Button>
+        </Grid>
+      </Grid>
+    </div>
   );
 }
 

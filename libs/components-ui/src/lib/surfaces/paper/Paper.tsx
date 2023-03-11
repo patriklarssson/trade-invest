@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { Shadow } from '@trade-invest/theme';
 import { HTMLAttributes } from 'react';
+import { withDisplay, withFlexBox, withPadding } from '../../higher-order-components';
 
 interface IPaperProps extends HTMLAttributes<HTMLElement> {
   /**
@@ -66,4 +67,4 @@ export function Paper(props: IPaperProps) {
   return <PaperRoot as={component} ownerState={ownerState} {...other} />;
 }
 
-export default Paper;
+export default withPadding(withDisplay(withFlexBox(Paper)));

@@ -69,6 +69,19 @@ export const lightPalette: IPalette = {
   },
 };
 
+export const darkPalette: IPalette = {
+  ...lightPalette,
+  background: {
+    default: "#18191F",
+    paper: "#5e5e5e"
+  },
+  text: {
+    primary: "#efefef",
+    secondary: "",
+    disabled: ""
+  }
+}
+
 export interface IPalette {
   common: {
     black: string;

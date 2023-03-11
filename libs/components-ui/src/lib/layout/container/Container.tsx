@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { BreakpointKey, values } from '@trade-invest/theme';
 import { HTMLAttributes } from 'react';
+import { withColor } from '../../higher-order-components';
 
 interface IContainerProps extends HTMLAttributes<HTMLElement> {
   children?: React.ReactNode;
@@ -8,6 +9,7 @@ interface IContainerProps extends HTMLAttributes<HTMLElement> {
   disableGutters?: boolean;
   fixed?: boolean;
   maxWidth?: BreakpointKey | false;
+
 }
 
 const ContainerRoot = styled.div<{ ownerState: IContainerProps }>(
@@ -48,4 +50,4 @@ function Container(props: IContainerProps) {
   return <ContainerRoot as={component} ownerState={ownerState} {...other} />;
 }
 
-export default Container;
+export default withColor(Container);

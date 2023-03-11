@@ -8,7 +8,6 @@ import {
 import { storeUserSession } from '../services/userSessionService';
 
 const passwordLogin = (req, res, next) => {
-  console.log('authing...');
   const { username, password, totpSecret } = req.body;
   const credentials = {
     username,
@@ -25,15 +24,15 @@ const bankId = (req, res, next) => {
 };
 const bankIdCollect = (req, res, next) => {
   const { transactionId } = req.body;
-  checkBankIdCollect(transactionId).then((data) => res.send(data));
+  checkBankIdCollect(transactionId)
+  .then((data) => res.send(data))
+  .catch((e) => res.send(e))
 };
 const bankIdCollectCustomerId = (req, res, next) => {
-  console.log('Cookies: ', req.cookies)
   const { customerId } = req.params;
   const { transactionId } = req.body;
   bankIdEstablishConnection(transactionId, customerId).then((avanza) => {
     storeUserSession(req.session.id, { avanzaSession: avanza }, 600000);
-    console.log("AUTH", req.session.id);
     res.send("OK")
   });
 };

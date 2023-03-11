@@ -16,6 +16,7 @@ const TypographyRoot = styled.span<{
   ownerState: ITypographyProps;
 }>(({ theme, ownerState }) => ({
   fontFamily: '"Roboto","Helvetica","Arial",sans-serif',
+  color: theme.palette.text.primary,
   margin: theme.spacing(0),
   ...(ownerState.variant && {
     ...theme.typography[ownerState.variant],

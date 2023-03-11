@@ -30,25 +30,20 @@ app.use(express.urlencoded({ extended: true }));
 const redisClient = createClient();
 redisClient.connect().catch(console.error);
 
-// Initialize store.
 const redisStore = new RedisStore({
   client: redisClient,
   prefix: 'market-master-api:',
   ttl: 3600
 });
-app.set('trust proxy', 1);
 app.use(
   session({
     secret: randomUUID(),
     store: redisStore,
-    resave: true,
+    resave: false,
     saveUninitialized: true,
-    // resave: false,
-    // saveUninitialized: true,
     cookie: { ...SessionCookie } as any,
   })
 );
-console.log(config);
 
 const privateKey = fs.readFileSync(config.ssl.key);
 const certificate = fs.readFileSync(config.ssl.cert);

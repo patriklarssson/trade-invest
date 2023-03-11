@@ -1,5 +1,5 @@
 import createBreakPoints from './mediaquery/mediaQueries';
-import { lightPalette } from './pallete/palette';
+import { darkPalette, lightPalette } from './pallete/palette';
 import { shadow } from './shadows/shadows';
 import { spacing } from './spacing/spacing';
 import { typography } from './typography';
@@ -13,6 +13,26 @@ export const theme = [
       ...createBreakPoints(),
     },
     palette: lightPalette,
+    spacing: spacing,
+    shape: {
+      borderRadius: 4,
+    },
+    border: {
+      default: 3
+    },
+    shadows: shadow,
+    typography: {
+      ...typography,
+      ...fontWeight
+    },
+    zIndex: zIndex,
+  },
+  {
+    name: 'dark theme',
+    breakpoint: {
+      ...createBreakPoints(),
+    },
+    palette: darkPalette,
     spacing: spacing,
     shape: {
       borderRadius: 4,
