@@ -2,17 +2,19 @@ import { Security } from '../../features/security/models/Security';
 import config from '../../config';
 import axios from 'axios';
 import https from 'https';
+import { Typography } from '@trade-invest/components-ui';
 
 export default function SecurityDetailPage({ holdings }) {
   return (
     <div>
       {holdings && (
         <div>
-          <h3>totalBalance: {holdings.totalBalance}</h3>
-          <h3>totalBuyingPower: {holdings.totalBuyingPower}</h3>
-          <h3>totalOwnCapital: {holdings.totalOwnCapital}</h3>
-          <h3>totalProfit: {holdings.totalProfit}</h3>
-          <h3>totalProfitPercent: {holdings.totalProfitPercent}</h3>
+
+          <Typography variant='h6'>totalBalance: {holdings.totalBalance}</Typography>
+          <Typography variant='h6'>totalBuyingPower: {holdings.totalBuyingPower}</Typography>
+          <Typography variant='h6'>totalOwnCapital: {holdings.totalOwnCapital}</Typography>
+          <Typography variant='h6'>totalProfit: {holdings.totalProfit}</Typography>
+          <Typography variant='h6'>totalProfitPercent: {holdings.totalProfitPercent}</Typography>
         </div>
       )}
     </div>
@@ -20,8 +22,6 @@ export default function SecurityDetailPage({ holdings }) {
 }
 
 export async function getServerSideProps({ req }) {
-  console.log('req.headers', req.headers);
-
   const holdings = await axios
     .get(`${config.marketMasterApiBaseUrl}/account/holdings`, {
       withCredentials: true,

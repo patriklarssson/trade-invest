@@ -122,9 +122,7 @@ export function Index(): JSX.Element {
         </Grid>
         <Grid justifyContent="center" display="flex">
           <Button>
-            <a href={autostartToken}>
             <Typography variant="h6">Open BankId</Typography>
-            </a>
           </Button>
         </Grid>
       </Grid>
