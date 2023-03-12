@@ -9,9 +9,14 @@ export default function SecurityDetailPage({ index }) {
     <div>
       <Stack divider={<Divider />}>
         {index.constituents.map((x, i) => (
-          <div key={i} style={{display: "flex", justifyContent: "space-between"}}>
+          <div
+            key={i}
+            style={{ display: 'flex', justifyContent: 'space-between' }}
+          >
             <Typography variant="body1">{x.name}</Typography>
-            <Typography variant="body1">{(x.changePercent * 100).toFixed(2)}%</Typography>
+            <Typography variant="body1">
+              {(x.changePercent * 100).toFixed(2)}%
+            </Typography>
           </div>
         ))}
       </Stack>

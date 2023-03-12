@@ -1,7 +1,12 @@
 import { randomUUID } from 'crypto';
 import express from 'express';
 import session from 'express-session';
-import { authRouter, securityRouter, accountRouter, marketRouter } from './routes';
+import {
+  authRouter,
+  securityRouter,
+  accountRouter,
+  marketRouter,
+} from './routes';
 import fs from 'fs';
 import https from 'https';
 import cors from 'cors';
@@ -33,7 +38,7 @@ redisClient.connect().catch(console.error);
 const redisStore = new RedisStore({
   client: redisClient,
   prefix: 'market-master-api:',
-  ttl: 3600
+  ttl: 3600,
 });
 app.use(
   session({

@@ -45,16 +45,16 @@ jobs:
           strip_components: 2
           target: '/var/www/html/trade-invest'
 
-      # Deploy affected apps
-      - name: Deploy Affected Storybook
-        uses: appleboy/scp-action@master
-        with:
-          overwrite: true
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
-          port: ${{ secrets.SSH_PORT }}
-          source: 'dist/storybook'
-          strip_components: 2
-          target: '/var/www/html/storybook'
+      # # Deploy affected Storybook
+      # - name: Deploy Affected Storybook
+      #   uses: appleboy/scp-action@master
+      #   with:
+      #     overwrite: true
+      #     host: ${{ secrets.SSH_HOST }}
+      #     username: ${{ secrets.SSH_USERNAME }}
+      #     key: ${{ secrets.SSH_KEY }}
+      #     port: ${{ secrets.SSH_PORT }}
+      #     source: 'dist/storybook'
+      #     strip_components: 2
+      #     target: '/var/www/html/storybook'
 
