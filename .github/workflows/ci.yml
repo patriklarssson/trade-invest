@@ -1,46 +1,3 @@
-# name: Build and Deploy Affected Apps
-
-# on:
-#   push:
-#     branches:
-#       - main
-#   pull_request:
-
-# jobs:
-#   build-and-deploy:
-#     runs-on: ubuntu-latest
-
-#     # Checkout branch
-#     steps:
-#       - uses: actions/checkout@v2
-#         with:
-#           fetch-depth: 0
-
-#       # Install dependencies
-#       - name: Install Dependencies
-#         run: npm ci
-
-#       # Check which apps have been affected
-#       - name: Check Affected Apps
-#         run: npx nx affected:apps --base=HEAD~1 --plain
-
-#       # Build affected apps
-#       - name: Build Affected Apps
-#         run: npx nx affected --base=HEAD~1 --target=build --prod
-
-#       # Deploy affected apps
-#       - name: Deploy Affected Apps
-#         uses: appleboy/scp-action@master
-#         with:
-#           overwrite: true
-#           host: ${{ secrets.SSH_HOST }}
-#           username: ${{ secrets.SSH_USERNAME }}
-#           key: ${{ secrets.SSH_KEY }}
-#           port: ${{ secrets.SSH_PORT }}
-#           source: 'dist/apps'
-#           strip_components: 2
-#           target: '/var/www/html/trade-invest'
-
 name: Build and Deploy Affected Apps
 
 on:
@@ -63,9 +20,9 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      # Check which apps and libs have been affected
-      - name: Check Affected Apps and Libs
-        run: npx nx affected --base=HEAD~1 --target=build --prod --with-deps --plain
+      # Check which apps have been affected
+      - name: Check Affected Apps
+        run: npx nx affected:apps --base=HEAD~1 --plain
 
       # Build affected apps
       - name: Build Affected Apps
@@ -73,7 +30,7 @@ jobs:
 
       # Build affected storybooks
       - name: Build Affected Storybooks
-        run: npx nx affected --base=HEAD~1 --target=storybook-build --prod
+        run: npx nx affected --base=HEAD~1 --target=build-storybook --prod
 
       # Deploy affected apps
       - name: Deploy Affected Apps
@@ -87,3 +44,17 @@ jobs:
           source: 'dist/apps'
           strip_components: 2
           target: '/var/www/html/trade-invest'
+
+      # Deploy affected apps
+      - name: Deploy Affected Storybook
+        uses: appleboy/scp-action@master
+        with:
+          overwrite: true
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          source: 'dist/storybook'
+          strip_components: 2
+          target: '/var/www/html/storybook'
+
