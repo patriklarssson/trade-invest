@@ -16,8 +16,13 @@
     "**/*.spec.js",
     "**/*.test.js",
     "**/*.spec.jsx",
-    "**/*.test.jsx"
+    "**/*.test.jsx",
+    "**/*.stories.ts",
+    "**/*.stories.js",
+    "**/*.stories.jsx",
+    "**/*.stories.tsx"
   ],
-  "include": ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
+  "include": ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx", "../theme/src/lib/types/cssProperties.ts"]
 }
-//TODO "../theme/src/lib/types/cssProperties.ts" include?
+
+// NEEDED? ../theme/src/lib/types/cssProperties.ts

@@ -1,6 +1,7 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import Typography from '../typography';
+// import Typography from '../typography';
 import Divider from './Divider';
+import Typography from '../typography/Typography';
 
 
 export default {
