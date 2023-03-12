@@ -12,6 +12,7 @@ const constants = {
     CERTIFICATE_PATH: '/_mobile/market/certificate/{0}',
     // INSTRUMENT_PATH: '/_mobile/market/{0}/{1}',
     INSTRUMENT_PATH: '/_api/market-guide/{0}/{1}',
+    MARKET_INDEX_PATH: '/_api/market-index/{0}',
     ORDERBOOK_PATH: '/_mobile/order/{0}',
     ORDERBOOK_LIST_PATH: '/_mobile/market/orderbooklist/{0}',
     CHARTDATA_PATH: '/_mobile/chart/orderbook/{0}',

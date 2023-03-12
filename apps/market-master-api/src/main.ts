@@ -1,7 +1,7 @@
 import { randomUUID } from 'crypto';
 import express from 'express';
 import session from 'express-session';
-import { authRouter, securityRouter, accountRouter } from './routes';
+import { authRouter, securityRouter, accountRouter, marketRouter } from './routes';
 import fs from 'fs';
 import https from 'https';
 import cors from 'cors';
@@ -52,6 +52,7 @@ const server = https.createServer({ key: privateKey, cert: certificate }, app);
 app.use('/auth', authRouter);
 app.use('/security', securityRouter);
 app.use('/account', accountRouter);
+app.use('/market', marketRouter);
 
 const port = process.env.PORT || 3333;
 server.listen(port, () => {

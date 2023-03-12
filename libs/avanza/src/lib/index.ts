@@ -639,6 +639,10 @@ class Avanza extends EventEmitter {
     return this.call('GET', constants.paths.OVERVIEW_PATH);
   }
 
+  getIndex(instrumentId: string) {
+    return this.call('GET', constants.paths.MARKET_INDEX_PATH.replace('{0}', instrumentId));
+  }
+
   getAccountOverview(accountId: string) {
     const path = constants.paths.ACCOUNT_OVERVIEW_PATH.replace(
       '{0}',

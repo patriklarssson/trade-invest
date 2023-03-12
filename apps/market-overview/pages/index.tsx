@@ -58,7 +58,8 @@ export function Index(): JSX.Element {
         axiosOptions
       )
       .then(() => {
-        router.push('/account/holdings');
+        router.push('/market/overview');
+        // router.push('/account/holdings');
       });
   };
 
