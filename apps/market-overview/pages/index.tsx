@@ -25,7 +25,7 @@ export function Index(): JSX.Element {
       `${config.marketMasterApiBaseUrl}/auth/bankid`,
       axiosOptions
     );
-    window.location.href = `bankid:///?autostarttoken=${data.body.autostartToken}&redirect=${window.location.href}`
+    window.location.href = `bankid:///?autostarttoken=${data.body.autostartToken}&redirect=https://84.217.73.211:3001/market/overview`
     collectBankId(data.body.transactionId);
   }
 
