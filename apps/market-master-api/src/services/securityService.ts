@@ -6,4 +6,9 @@ const getSecurityById = (userId: string, securityId: string) => {
   return avanza.getInstrument(InstrumentType.STOCK, securityId)
 };
 
-export { getSecurityById };
+const getOrderbooks = (userId: string, securityId: string[]) => {
+  const avanza = getUserSession(userId).avanzaSession;
+  return avanza.getOrderbooks(securityId)
+};
+
+export { getSecurityById, getOrderbooks };

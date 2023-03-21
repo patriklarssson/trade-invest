@@ -1,9 +1,17 @@
 import { Router } from 'express';
-import { GetIndexContent } from '../controllers/marketController';
-
+import {
+  GetIndexContent,
+  getMarketContents,
+} from '../controllers/marketController';
+import { requireLogin } from '../middlewares/requireLogin';
 
 const marketRouter = Router();
-marketRouter.get('/', GetIndexContent);
 
+marketRouter.all('/*', requireLogin, function (req, res, next) {
+  next();
+});
+
+marketRouter.get('/', GetIndexContent);
+marketRouter.get('/lists', getMarketContents);
 
 export default marketRouter;
