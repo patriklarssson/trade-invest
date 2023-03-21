@@ -20,6 +20,15 @@ export function Index(): JSX.Element {
 
   const axiosOptions = { withCredentials: true };
 
+  const sameBankId = async () => {
+    const { data } = await axios.get(
+      `${config.marketMasterApiBaseUrl}/auth/bankid`,
+      axiosOptions
+    );
+    window.location.href = `bankid:///?autostarttoken=${data.body.autostartToken}`
+    collectBankId(data.body.transactionId);
+  }
+
   const startBankIdSigning = async () => {
     const { data } = await axios.get(
       `${config.marketMasterApiBaseUrl}/auth/bankid`,
@@ -123,7 +132,7 @@ export function Index(): JSX.Element {
         </Grid>
         <Grid justifyContent="center" display="flex">
           <Button>
-            <Typography variant="h6">Open BankId</Typography>
+            <Typography onClick={sameBankId} variant="h6">Open BankId</Typography>
           </Button>
         </Grid>
       </Grid>

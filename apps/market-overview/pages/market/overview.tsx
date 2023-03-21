@@ -43,42 +43,48 @@ export default function SecurityDetailPage({ winners, losers, cookie }) {
     <div>
       <select value={list} onChange={(e) => handleChange(e.target.value)}>
         {lists.map((x, i) => (
-          <option key={i} value={x}>{x}</option>
+          <option key={i} value={x}>
+            {x}
+          </option>
         ))}
       </select>
 
       <Grid container>
-        <Grid columns={{ sm: 12, md: 6 }} spacing={4}>
-          <Typography variant="h4">Winners</Typography>
-          <Stack divider={<Divider />}>
-            {winner.map((x, i) => (
-              <div
-                key={i}
-                style={{ display: 'flex', justifyContent: 'space-between' }}
-              >
-                <Typography variant="body1">{x.name}</Typography>
-                <Typography variant="body1">
-                  {x.changePercent.toFixed(2)}%
-                </Typography>
-              </div>
-            ))}
-          </Stack>
+        <Grid columns={{ xs: 12, md: 6 }} spacing={4}>
+          <div>
+            <Typography variant="h4">Winners</Typography>
+            <Stack divider={<Divider />}>
+              {winner.map((x, i) => (
+                <div
+                  key={i}
+                  style={{ display: 'flex', justifyContent: 'space-between' }}
+                >
+                  <Typography variant="body1">{x.name}</Typography>
+                  <Typography variant="body1">
+                    {x.changePercent.toFixed(2)}%
+                  </Typography>
+                </div>
+              ))}
+            </Stack>
+          </div>
         </Grid>
-        <Grid columns={{ sm: 12, md: 6 }} spacing={4}>
-          <Typography variant="h4">Losers</Typography>
-          <Stack divider={<Divider />}>
-            {loser.map((x, i) => (
-              <div
-                key={i}
-                style={{ display: 'flex', justifyContent: 'space-between' }}
-              >
-                <Typography variant="body1">{x.name}</Typography>
-                <Typography variant="body1">
-                  {x.changePercent.toFixed(2)}%
-                </Typography>
-              </div>
-            ))}
-          </Stack>
+        <Grid columns={{ xs: 12, md: 6 }} spacing={4}>
+          <div>
+            <Typography variant="h4">Losers</Typography>
+            <Stack divider={<Divider />}>
+              {loser.map((x, i) => (
+                <div
+                  key={i}
+                  style={{ display: 'flex', justifyContent: 'space-between' }}
+                >
+                  <Typography variant="body1">{x.name}</Typography>
+                  <Typography variant="body1">
+                    {x.changePercent.toFixed(2)}%
+                  </Typography>
+                </div>
+              ))}
+            </Stack>
+          </div>
         </Grid>
       </Grid>
     </div>
